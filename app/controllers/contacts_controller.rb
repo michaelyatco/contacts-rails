@@ -29,8 +29,13 @@ class ContactsController < ApplicationController
   end
 
   def create
-    @contact = Contact.create(first_name: params[:first_name], last_name: params[:last_name], email: params[:email], phone_number: params[:phone_number])
-    render "create.html.erb"
+    address = params[:input_address]
+    coordinates = Geocoder.coordinates(address)
+    latitude = coordinates[0]
+    longitude = coordinates[1]
+    @contact = Contact.create(first_name: params[:first_name], middle_name: params[:middle_name], last_name: params[:last_name], email: params[:email], phone_number: params[:phone_number], latitude: latitude, longitude: longitude)
+    @contact.save
+    redirect_to "/contacts/#{@contact.id}"
   end
 
   def show
@@ -45,15 +50,20 @@ class ContactsController < ApplicationController
 
   def update
     @contact = Contact.find(params[:id])
-    @contact.assign_attributes(first_name: params[:first_name], last_name: params[:last_name], email: params[:email], phone_number: params[:phone_number])
+    @contact.assign_attributes(first_name: params[:first_name], middle_name: params[:middle_name], last_name: params[:last_name], email: params[:email], phone_number: params[:phone_number], latitude: latitude, longitude: longitude)
     @contact.save
-    render "update.html.erb"
+    redirect_to "/contacts/#{@contact.id}"
   end
 
   def destroy
     @contact = Contact.find(params[:id])
     @contact.destroy
-    render "destroy.html.erb"
+    redirect_to "/contacts/"
+  end
+
+  def all_johns
+    @contacts = Contact.all_johns
+    render "all_johns.html.erb"
   end
 
 end

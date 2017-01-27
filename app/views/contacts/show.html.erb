@@ -1,4 +1,9 @@
+<h1>Contact:</h1>
 <p>Name: <%= @contact.first_name %> <%= @contact.last_name %></p>
 <p>Email: <%= @contact.email %></p>
-<p>Phone Number: <%= @contact.phone_number %></p>
+<p>Phone Number: <%= @contact.japanese_number %></p>
+<p>Updated At: <%= @contact.friendly_updated_at %></p>
+<p>Latitude: <%= @contact.latitude %></p>
+<p>Longitude: <%= @contact.longitude %></p>
+<p>Address: <%= @contact.get_address %></p>
 <%= link_to "Delete Contact Please", "/contacts/#{@contact.id}", method: :delete %>

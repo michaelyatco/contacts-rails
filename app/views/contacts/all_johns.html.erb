@@ -1,16 +1,9 @@
-<% @contacts.each_slice(3) do |three_contacts| %>
-  <div class="row">
-    <% three_contacts.each do |contact| %>
-      <div class = "col-md-4">
-        <div class="well">
+<h1>All John's</h1>
+    <% contacts.each do |contact| %>
           <p>Name:<%= link_to(contact.full_name, "/contacts/#{contact.id}") %></p>
           <p>Email: <%= contact.email %></p>
           <p>Phone Number: <%= contact.phone_number %></p>
           <p>Added on:</p>
           <%= contact.friendly_time %>
           <%= link_to "Delete Contact Please", "/contacts/#{contact.id}", method: :delete %>
-        </div>
-      </div>
     <% end %>
-  </div>
-<% end %>
