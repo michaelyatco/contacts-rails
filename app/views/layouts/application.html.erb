@@ -9,6 +9,24 @@
   </head>
 
   <body>
+    <div class="dropdown">
+      <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+      Dropdown
+      <span class="caret"></span>
+      </button>
+  <ul class="dropdown-menu">
+            <% if current_user %>
+              <li><%= link_to "Log Out!", "/logout", class: "h1" %></li>
+            <% else %>
+              <li><a href="/login">Log In!</a></li>
+              <li><a href="/signup">Sign Up!</a></li>
+            <% end %>
+            <li role="separator" class="divider"></li>
+            <li><%=link_to "Add contact", "/contacts/new", method: :get%></a></li>
+            <li><a href="/contacts?sort=last_name">Sort by Alphbetical Order(A to Z)</a></li>
+            <li><a href="/contacts?sort=last_name&order=desc">Sort by Reverse Alphabetical Order(Z to A)</a></li>
+  </ul>
+</div>
     <%= yield %>
   </body>
 </html>

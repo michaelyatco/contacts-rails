@@ -20,8 +20,17 @@ class ContactsController < ApplicationController
   #   render "new_contact_result_method.html.erb"
   # end
   def index
-    @contacts = Contact.all
-    render "index.html.erb"
+    search_result = params[:search_result]
+    if current_user
+      if search_result
+        @contacts = Contact.where("first_name ILIKE ? OR last_name ILIKE ? OR email ILIKE ? OR phone_number ILIKE ?", "%#{search_result}%", "%#{search_result}%", "%#{search_result}%", "%#{search_result}%")
+      else 
+        @contacts = current_user.contacts
+      end
+      render "index.html.erb"
+    else
+      redirect_to "/login"
+    end
   end
 
   def new
@@ -33,7 +42,7 @@ class ContactsController < ApplicationController
     coordinates = Geocoder.coordinates(address)
     latitude = coordinates[0]
     longitude = coordinates[1]
-    @contact = Contact.create(first_name: params[:first_name], middle_name: params[:middle_name], last_name: params[:last_name], email: params[:email], phone_number: params[:phone_number], latitude: latitude, longitude: longitude)
+    @contact = Contact.create(first_name: params[:first_name], middle_name: params[:middle_name], last_name: params[:last_name], email: params[:email], phone_number: params[:phone_number], latitude: latitude, longitude: longitude, user_id: current_user.id)
     @contact.save
     redirect_to "/contacts/#{@contact.id}"
   end

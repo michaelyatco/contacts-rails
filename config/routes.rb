@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   # post "/new_contact_result", to: "contacts#new_contact_result_method"
   root to: "contacts#index"
 
+#contacts routes
   get "/contacts", to: "contacts#index"
   get "/contacts/new", to: "contacts#new"
   post "/contacts", to: "contacts#create"
@@ -15,5 +16,15 @@ Rails.application.routes.draw do
   patch "/contacts/:id", to: "contacts#update"
   delete "/contacts/:id", to: "contacts#destroy"
 
+#users routes
+  get "/signup", to: "users#new"
+  post "/users", to: "users#create"
+
+#sessions routes
+  get "/login", to: "sessions#new"
+  post "/login", to: "sessions#create"
+  get "/logout", to: "sessions#destroy"
+
+#all_johns route
   get "/all_johns", to: "contacts#all_johns"
 end
