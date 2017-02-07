@@ -24,6 +24,9 @@ class ContactsController < ApplicationController
     if current_user
       if search_result
         @contacts = Contact.where("first_name ILIKE ? OR last_name ILIKE ? OR email ILIKE ? OR phone_number ILIKE ?", "%#{search_result}%", "%#{search_result}%", "%#{search_result}%", "%#{search_result}%")
+      elsif params[:group]
+        selected_group = Group.find_by(name: params[:group])
+        @contacts = selected_group.contacts.where(user_id: current_user.id)
       else 
         @contacts = current_user.contacts
       end

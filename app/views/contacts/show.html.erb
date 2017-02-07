@@ -1,5 +1,7 @@
 <h1>Contact:</h1>
 <p>Name: <%= @contact.first_name %> <%= @contact.last_name %></p>
+<p>Group: <% @contact.groups.each do |group| %> <%= group.name.capitalize %></p>
+<% end %>
 <p>Email: <%= @contact.email %></p>
 <p>Phone Number: <%= @contact.japanese_number %></p>
 <p>Updated At: <%= @contact.friendly_updated_at %></p>

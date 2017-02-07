@@ -25,6 +25,11 @@
             <li><%=link_to "Add contact", "/contacts/new", method: :get%></a></li>
             <li><a href="/contacts?sort=last_name">Sort by Alphbetical Order(A to Z)</a></li>
             <li><a href="/contacts?sort=last_name&order=desc">Sort by Reverse Alphabetical Order(Z to A)</a></li>
+            <% Group.all.each do |group| %>
+              <li><a href="/contacts?group=<%= group.name %>">  
+              Group: <%= group.name.capitalize %>
+              </a></li>
+              <% end %>
   </ul>
 </div>
     <%= yield %>
