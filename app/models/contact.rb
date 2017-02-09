@@ -3,6 +3,9 @@ class Contact < ApplicationRecord
   has_many :contact_groups
   has_many :groups, through: :contact_groups
 
+  validates :first_name, :last_name, :email, presence: true
+  validates :email, :format => { :with => /\A[^@\s]+@([^@\s]+\.)+[^@\s]+\z/ }
+
   def friendly_time
     created_at.strftime("%b %d, %Y")
   end
@@ -22,7 +25,11 @@ class Contact < ApplicationRecord
   def get_address
     geo_localization = "#{latitude},#{longitude}"
     query = Geocoder.search(geo_localization).first
-    query.address
+    if query
+      query.address
+    else
+      "no address"
+    end
   end
 
   def self.all_johns

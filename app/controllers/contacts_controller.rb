@@ -37,17 +37,29 @@ class ContactsController < ApplicationController
   end
 
   def new
+    @contact = Contact.new
     render "new.html.erb"
   end
 
   def create
     address = params[:input_address]
     coordinates = Geocoder.coordinates(address)
-    latitude = coordinates[0]
-    longitude = coordinates[1]
-    @contact = Contact.create(first_name: params[:first_name], middle_name: params[:middle_name], last_name: params[:last_name], email: params[:email], phone_number: params[:phone_number], latitude: latitude, longitude: longitude, user_id: current_user.id)
-    @contact.save
-    redirect_to "/contacts/#{@contact.id}"
+    if coordinates
+      latitude = coordinates[0]
+      longitude = coordinates[1]
+    else
+      latitude = nil
+      longitude = nil
+    end
+    @contact = Contact.new(first_name: params[:first_name], middle_name: params[:middle_name], last_name: params[:last_name], email: params[:email], phone_number: params[:phone_number], latitude: latitude, longitude: longitude, user_id: current_user.id)
+      if @contact.save
+        flash[:success] = "Contact has been created!"
+        flash[:info] = "The contact that has been created was #{@contact.id}"
+        redirect_to "/contacts/#{@contact.id}"
+      else
+        render "new.html.erb"
+      end
+
   end
 
   def show
